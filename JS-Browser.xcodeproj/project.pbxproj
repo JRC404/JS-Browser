@@ -38,7 +38,6 @@
 		16077A6724487080003A5271 /* JS-BrowserTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "JS-BrowserTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		16077A6B24487080003A5271 /* JS_BrowserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JS_BrowserTests.swift; sourceTree = "<group>"; };
 		16077A6D24487080003A5271 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		16077A7624487CEB003A5271 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,7 +86,6 @@
 				16077A5D24487080003A5271 /* Assets.xcassets */,
 				16077A5F24487080003A5271 /* LaunchScreen.storyboard */,
 				16077A6224487080003A5271 /* Info.plist */,
-				16077A7624487CEB003A5271 /* README.md */,
 			);
 			path = "JS-Browser";
 			sourceTree = "<group>";
