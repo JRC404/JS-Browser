@@ -40,7 +40,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
     
     func navigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Links", style: .plain, target: self, action: #selector(openTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Home", style: .plain, target: self, action: #selector(openTapped))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchTapped))
     }
     
@@ -63,6 +63,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
     
     @objc func searchTapped() {
+        
         let alert = UIAlertController(title: "Enter your URL", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 
@@ -71,10 +72,12 @@ class ViewController: UIViewController, WKNavigationDelegate {
         })
 
         alert.addAction(UIAlertAction(title: "Search", style: .default, handler: { action in
-
-            if let url = alert.textFields?.first?.text {
-                print("Your URL was: \(url)")
-            }
+            let url = URL(string: "https://" + (alert.textFields?.first?.text ?? "google.com"))
+            self.webView.load(URLRequest(url: url!))
+            print(url as Any)
+//            if url == alert.textFields?.first?.text {
+//            print("Your URL was: \(url ?? "no url found")")
+//            }
         }))
 
         self.present(alert, animated: true)
