@@ -15,6 +15,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     var webView: WKWebView!
     var progressView: UIProgressView!
     var progressButton: UIBarButtonItem!
+//    var textField: UITextField!
     
     override func loadView() {
         webView = WKWebView()
@@ -40,7 +41,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     func navigationBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Links", style: .plain, target: self, action: #selector(openTapped))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(openTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchTapped))
     }
     
     func progressIndicator() {
@@ -60,6 +61,25 @@ class ViewController: UIViewController, WKNavigationDelegate {
             progressView.progress = Float(webView.estimatedProgress)
         }
     }
+    
+    @objc func searchTapped() {
+        let alert = UIAlertController(title: "Enter your URL", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+        alert.addTextField(configurationHandler: { textField in
+            textField.placeholder = "Input your URL here"
+        })
+
+        alert.addAction(UIAlertAction(title: "Search", style: .default, handler: { action in
+
+            if let url = alert.textFields?.first?.text {
+                print("Your URL was: \(url)")
+            }
+        }))
+
+        self.present(alert, animated: true)
+    }
+    
     
     @objc func openTapped() {
         let ac = UIAlertController(title: "Open page…", message: nil, preferredStyle: .actionSheet)
