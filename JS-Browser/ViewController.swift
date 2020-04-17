@@ -14,6 +14,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
 
     var webView: WKWebView!
     var progressView: UIProgressView!
+    var progressButton: UIBarButtonItem!
     
     override func loadView() {
         webView = WKWebView()
@@ -22,13 +23,9 @@ class ViewController: UIViewController, WKNavigationDelegate {
         view = webView
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(openTapped))
-        
-        progressView = UIProgressView(progressViewStyle: .default)
-        progressView.sizeToFit()
-        let progressButton = UIBarButtonItem(customView: progressView)
+    func browserSetUp() {
+        navigationBar()
+        progressIndicator()
         
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
@@ -39,6 +36,22 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.allowsBackForwardNavigationGestures = true
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
 
+    }
+    
+    func navigationBar() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Links", style: .plain, target: self, action: #selector(openTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(openTapped))
+    }
+    
+    func progressIndicator() {
+        progressView = UIProgressView(progressViewStyle: .default)
+        progressView.sizeToFit()
+        progressButton = UIBarButtonItem(customView: progressView)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        browserSetUp()
         // Do any additional setup after loading the view.
     }
     
