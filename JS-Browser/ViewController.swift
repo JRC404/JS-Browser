@@ -61,6 +61,8 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     @objc func searchTapped() {
         
+       
+        
         let alert = UIAlertController(title: "Enter your URL", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
@@ -69,11 +71,11 @@ class ViewController: UIViewController, WKNavigationDelegate {
         })
         
         alert.addAction(UIAlertAction(title: "Search", style: .default, handler: { action in
-            let url = URL(string: "https://" + (alert.textFields?.first?.text ?? "google.com"))
-            self.webView.load(URLRequest(url: url!))
+            let url = URL(string: "https://" + (alert.textFields?.first?.text ?? "google.com"))!
+            self.webView.load(URLRequest(url: url))
             print(url as Any)
             var bookmarks = [URL]()
-            bookmarks.append(url!)
+            bookmarks.append(url)
             print("Your bookmarks are: \(bookmarks)")
             //            if url == alert.textFields?.first?.text {
             //            print("Your URL was: \(url ?? "no url found")")
