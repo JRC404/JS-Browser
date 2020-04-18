@@ -79,9 +79,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
             //            print("Your URL was: \(url ?? "no url found")")
             //            }
         }))
-        
-        
-        
+    
         self.present(alert, animated: true)
     }
     
