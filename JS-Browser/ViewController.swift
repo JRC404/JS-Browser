@@ -15,7 +15,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
     var webView: WKWebView!
     var progressView: UIProgressView!
     var progressButton: UIBarButtonItem!
-//    var textField: UITextField!
     
     override func loadView() {
         webView = WKWebView()
@@ -36,7 +35,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.load(URLRequest(url: url))
         webView.allowsBackForwardNavigationGestures = true
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
-
     }
     
     func navigationBar() {
@@ -53,7 +51,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         browserSetUp()
-        // Do any additional setup after loading the view.
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -66,20 +63,20 @@ class ViewController: UIViewController, WKNavigationDelegate {
         
         let alert = UIAlertController(title: "Enter your URL", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-
+        
         alert.addTextField(configurationHandler: { textField in
             textField.placeholder = "Input your URL here"
         })
-
+        
         alert.addAction(UIAlertAction(title: "Search", style: .default, handler: { action in
             let url = URL(string: "https://" + (alert.textFields?.first?.text ?? "google.com"))
             self.webView.load(URLRequest(url: url!))
             print(url as Any)
-//            if url == alert.textFields?.first?.text {
-//            print("Your URL was: \(url ?? "no url found")")
-//            }
+            //            if url == alert.textFields?.first?.text {
+            //            print("Your URL was: \(url ?? "no url found")")
+            //            }
         }))
-
+        
         self.present(alert, animated: true)
     }
     
