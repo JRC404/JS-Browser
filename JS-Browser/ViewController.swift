@@ -72,10 +72,15 @@ class ViewController: UIViewController, WKNavigationDelegate {
             let url = URL(string: "https://" + (alert.textFields?.first?.text ?? "google.com"))
             self.webView.load(URLRequest(url: url!))
             print(url as Any)
+            var bookmarks = [URL]()
+            bookmarks.append(url!)
+            print("Your bookmarks are: \(bookmarks)")
             //            if url == alert.textFields?.first?.text {
             //            print("Your URL was: \(url ?? "no url found")")
             //            }
         }))
+        
+        
         
         self.present(alert, animated: true)
     }
