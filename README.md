@@ -3,7 +3,7 @@
 I built an app that had a bunch of webViews back when I was first learning Obj-C and I have wanted to make amends for that... I have wanted to make a 'proper' browser for a while now but never actually focused on it...
 
 - [x] Search
-- [ ] Bookmark
+- [ ] Bookmark, this will need time.
 - [ ] Forward and back
 - [ ] http sites
 - [ ] user profile
