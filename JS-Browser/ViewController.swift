@@ -16,6 +16,9 @@ class ViewController: UIViewController, WKNavigationDelegate {
     var progressView: UIProgressView!
     var progressButton: UIBarButtonItem!
     
+    let JS = UIColor(red: 255/255.0, green: 0/255.0, blue: 56/255.0, alpha: 1)
+
+    
     override func loadView() {
         webView = WKWebView()
         // fix for error is to promise to implement WKNavigationDelegate protocol
@@ -29,6 +32,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
+        refresh.tintColor = JS;
         toolbarItems = [progressButton, spacer, refresh]
         navigationController?.isToolbarHidden = false
         let url = URL(string: "https://wearecodenation.com")!
@@ -40,12 +44,16 @@ class ViewController: UIViewController, WKNavigationDelegate {
     func navigationBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Home", style: .plain, target: self, action: #selector(openTapped))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchTapped))
+        navigationItem.rightBarButtonItem?.tintColor = JS;
+        navigationItem.leftBarButtonItem?.tintColor = JS;
+
     }
     
     func progressIndicator() {
         progressView = UIProgressView(progressViewStyle: .default)
         progressView.sizeToFit()
         progressButton = UIBarButtonItem(customView: progressView)
+        progressView.progressTintColor = JS;
     }
     
     override func viewDidLoad() {
@@ -63,6 +71,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         var bookmarks = [URL]()
         let alert = UIAlertController(title: "Enter your URL", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.view.tintColor = JS;
         
         alert.addTextField(configurationHandler: { textField in
             textField.placeholder = "Input your URL here"
@@ -90,6 +99,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         ac.addAction(UIAlertAction(title: "google.co.uk", style: .default, handler: openPage))
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         ac.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
+        ac.view.tintColor = JS;
         present(ac, animated: true)
     }
     
@@ -101,7 +111,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         title = webView.title
     }
-
+    
 
 }
-
