@@ -33,9 +33,13 @@ class ViewController: UIViewController, WKNavigationDelegate {
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
         let share = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareMe(sender:)))
+        let back = UIBarButtonItem(barButtonSystemItem: .rewind, target: self, action: #selector(back(sender:)))
+        let forward = UIBarButtonItem(barButtonSystemItem: .fastForward, target: self, action: #selector(forward(sender:)))
         refresh.tintColor = JS;
         share.tintColor = JS;
-        toolbarItems = [progressButton,spacer, share, spacer, refresh]
+        forward.tintColor = JS;
+        back.tintColor = JS;
+        toolbarItems = [back, forward, spacer, share, spacer, refresh]
         navigationController?.isToolbarHidden = false
         let url = URL(string: "https://wearecodenation.com")!
         webView.load(URLRequest(url: url))
@@ -50,8 +54,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
         navigationItem.leftBarButtonItem?.tintColor = JS;
         
         navigationController?.hidesBarsOnSwipe = true
-
-
     }
     
     func progressIndicator() {
@@ -124,6 +126,22 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         title = webView.title
+    }
+    
+    @objc func back(sender: UIBarButtonItem) {
+        if(webView.canGoBack) {
+             webView.goBack()
+        } else {
+             self.navigationController?.popViewController(animated:true)
+        }
+    }
+    
+    @objc func forward(sender: UIBarButtonItem) {
+        if(webView.canGoForward) {
+             webView.goForward()
+        } else {
+             self.navigationController?.popViewController(animated:true)
+        }
     }
 
 }
