@@ -32,8 +32,10 @@ class ViewController: UIViewController, WKNavigationDelegate {
         
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
+        let share = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareMe(sender:)))
         refresh.tintColor = JS;
-        toolbarItems = [progressButton, spacer, refresh]
+        share.tintColor = JS;
+        toolbarItems = [progressButton,spacer, spacer, share, spacer, refresh]
         navigationController?.isToolbarHidden = false
         let url = URL(string: "https://wearecodenation.com")!
         webView.load(URLRequest(url: url))
@@ -46,12 +48,15 @@ class ViewController: UIViewController, WKNavigationDelegate {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchTapped))
         navigationItem.rightBarButtonItem?.tintColor = JS;
         navigationItem.leftBarButtonItem?.tintColor = JS;
+        
+        navigationController?.hidesBarsOnSwipe = true
+
 
     }
     
     func progressIndicator() {
         progressView = UIProgressView(progressViewStyle: .default)
-        progressView.sizeToFit()
+//        progressView.siz
         progressButton = UIBarButtonItem(customView: progressView)
         progressView.progressTintColor = JS;
     }
@@ -108,9 +113,24 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.load(URLRequest(url: url))
     }
     
+    
+    @objc func shareMe(sender: UIBarButtonItem) {
+        let text = webView.url
+        let textShare = [ text ]
+        let activityViewController = UIActivityViewController(activityItems: textShare as [Any] , applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.present(activityViewController, animated: true, completion: nil)
+    }
+    
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         title = webView.title
     }
     
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        // Hide the Navigation Bar
+//        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+//    }
 
 }
