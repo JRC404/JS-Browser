@@ -35,7 +35,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         let share = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareMe(sender:)))
         refresh.tintColor = JS;
         share.tintColor = JS;
-        toolbarItems = [progressButton,spacer, spacer, share, spacer, refresh]
+        toolbarItems = [progressButton,spacer, share, spacer, refresh]
         navigationController?.isToolbarHidden = false
         let url = URL(string: "https://wearecodenation.com")!
         webView.load(URLRequest(url: url))
@@ -125,12 +125,5 @@ class ViewController: UIViewController, WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         title = webView.title
     }
-    
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        // Hide the Navigation Bar
-//        self.navigationController?.setNavigationBarHidden(true, animated: animated)
-//    }
 
 }
