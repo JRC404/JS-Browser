@@ -33,13 +33,15 @@ class ViewController: UIViewController, WKNavigationDelegate {
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
         let share = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareMe(sender:)))
-        let back = UIBarButtonItem(barButtonSystemItem: .rewind, target: self, action: #selector(back(sender:)))
-        let forward = UIBarButtonItem(barButtonSystemItem: .fastForward, target: self, action: #selector(forward(sender:)))
+        let back = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(back(sender:)))
+        let forward = UIBarButtonItem(title: "Forward", style: .plain, target: self, action: #selector(forward(sender:)))
+        let bookmark = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: nil)
         refresh.tintColor = JS;
         share.tintColor = JS;
         forward.tintColor = JS;
         back.tintColor = JS;
-        toolbarItems = [back, forward, spacer, share, spacer, refresh]
+        bookmark.tintColor = JS;
+        toolbarItems = [back, spacer, forward, spacer, share, spacer, bookmark, spacer, refresh]
         navigationController?.isToolbarHidden = false
         let url = URL(string: "https://wearecodenation.com")!
         webView.load(URLRequest(url: url))
