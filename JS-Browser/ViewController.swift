@@ -11,10 +11,12 @@ import WebKit
 
 class ViewController: UIViewController, WKNavigationDelegate {
     
-
     var webView: WKWebView!
     var progressView: UIProgressView!
     var progressButton: UIBarButtonItem!
+    let searchBar = UISearchBar()
+
+   
     
     let JS = UIColor(red: 255/255.0, green: 0/255.0, blue: 56/255.0, alpha: 1)
 
@@ -50,13 +52,32 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
     
     func navigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Home", style: .plain, target: self, action: #selector(openTapped))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchTapped))
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Home", style: .plain, target: self, action: #selector(openTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(openTapped))
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchTapped))
+        searchBarFunc()
         navigationItem.rightBarButtonItem?.tintColor = JS;
         navigationItem.leftBarButtonItem?.tintColor = JS;
         
         navigationController?.hidesBarsOnSwipe = true
     }
+    
+    func searchBarFunc() {
+        searchBar.delegate = self
+        searchBar.sizeToFit()
+        searchBar.placeholder = "Search or enter website name"
+        searchBar.tintColor = JS;
+        searchBar.keyboardType = UIKeyboardType.URL
+        searchBar.autocapitalizationType = .none
+        
+        
+//        let url = URL(string: "https://" + (searchBar.text ?? "google.com"))!
+//        self.webView.load(URLRequest(url: url))
+//        searchBar.becomeFirstResponder()
+        self.navigationController?.navigationBar.topItem?.titleView = searchBar
+    }
+    
+    
     
     func progressIndicator() {
         progressView = UIProgressView(progressViewStyle: .default)
@@ -147,3 +168,20 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
 
 }
+
+extension ViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
+    {
+        print("\(searchText)")
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let url = URL(string: "https://" + (searchBar.text ?? "google.com"))!
+//        searchBar.placeholder = "Search or enter website name"
+        searchBar.text = nil
+        self.webView.load(URLRequest(url: url))
+        searchBar.resignFirstResponder()
+    }
+}
+
