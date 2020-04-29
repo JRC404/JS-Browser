@@ -49,6 +49,8 @@ class ViewController: UIViewController, WKNavigationDelegate {
         toolbarItems = [back, spacer, forward, spacer, share, spacer, bookmark, spacer, refresh]
         navigationController?.isToolbarHidden = false
         let url = URL(string: "https://wearecodenation.com")!
+        refreshPull()
+        searchBar.text = url.absoluteString
         webView.load(URLRequest(url: url))
         webView.allowsBackForwardNavigationGestures = true
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
@@ -61,7 +63,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
         searchBarFunc()
         navigationItem.rightBarButtonItem?.tintColor = JS;
         navigationItem.leftBarButtonItem?.tintColor = JS;
-        
         navigationController?.hidesBarsOnSwipe = true
     }
     
@@ -160,12 +161,24 @@ class ViewController: UIViewController, WKNavigationDelegate {
         }
     }
     
+    func refreshPull() {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshWebView(_:)), for: UIControl.Event.valueChanged)
+        webView.scrollView.addSubview(refreshControl)
+        webView.scrollView.bounces = true
+    }
+    
     @objc func forward(sender: UIBarButtonItem) {
         if(webView.canGoForward) {
              webView.goForward()
         } else {
              self.navigationController?.popViewController(animated:true)
         }
+    }
+    
+    @objc func refreshWebView(_ sender: UIRefreshControl) {
+        webView?.reload()
+        sender.endRefreshing()
     }
 
 }
@@ -177,6 +190,7 @@ extension ViewController: UISearchBarDelegate {
 //        print("\(searchText)")
     }
     
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         var url: URL!
         url = URL(string: "\(searchBar.text ?? "https://google.com")")!
@@ -185,11 +199,12 @@ extension ViewController: UISearchBarDelegate {
         let check = something.contains("https://")
         if (!check) {
             print("idiot")
-            
             url = URL(string: "https://" + (searchBar.text ?? "https://google.com"))!
+        
         }
        
 //        searchBar.placeholder = "Search or enter website name"
+
         searchBar.text = url.absoluteString
         self.webView.load(URLRequest(url: url))
         searchBar.resignFirstResponder()
