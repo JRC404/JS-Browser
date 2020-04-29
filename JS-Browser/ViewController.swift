@@ -58,11 +58,11 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     func navigationBar() {
 //        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Home", style: .plain, target: self, action: #selector(openTapped))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(openTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "home"), style: .plain, target: self, action: #selector(openTapped))
 //        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchTapped))
         searchBarFunc()
         navigationItem.rightBarButtonItem?.tintColor = JS;
-        navigationItem.leftBarButtonItem?.tintColor = JS;
+//        navigationItem.leftBarButtonItem?.tintColor = JS;
         navigationController?.hidesBarsOnSwipe = true
     }
     
@@ -126,13 +126,16 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     
     @objc func openTapped() {
-        let ac = UIAlertController(title: "Open page…", message: nil, preferredStyle: .actionSheet)
-        ac.addAction(UIAlertAction(title: "github.com/jrc404", style: .default, handler: openPage))
-        ac.addAction(UIAlertAction(title: "google.co.uk", style: .default, handler: openPage))
-        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        ac.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
-        ac.view.tintColor = JS;
-        present(ac, animated: true)
+        let url = URL(string: "https://github.com/jrc404")!
+        searchBar.text = url.absoluteString
+        webView.load(URLRequest(url: url))
+//        let ac = UIAlertController(title: "Open page…", message: nil, preferredStyle: .actionSheet)
+//        ac.addAction(UIAlertAction(title: "github.com/jrc404", style: .default, handler: openPage))
+//        ac.addAction(UIAlertAction(title: "google.co.uk", style: .default, handler: openPage))
+//        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+//        ac.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
+//        ac.view.tintColor = JS;
+//        present(ac, animated: true)
     }
     
     func openPage(action: UIAlertAction) {
