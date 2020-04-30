@@ -91,6 +91,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         browserSetUp()
+//        notifications()
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -183,6 +184,12 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView?.reload()
         sender.endRefreshing()
     }
+    
+//    func notifcation() {
+//        let notification = UILocalNotification()
+//        notification.alertBody = "Hello, local notifications!"
+//        notification.fireDate = NSDate().dateByAddingTimeInterval(10) as Date // 10 seconds after now UIApplication.sharedApplication().scheduleLocalNotification(notification)
+//    }
 
 }
 
