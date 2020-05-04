@@ -15,11 +15,11 @@ class ViewController: UIViewController, WKNavigationDelegate {
     var progressView: UIProgressView!
     var progressButton: UIBarButtonItem!
     let searchBar = UISearchBar()
-
-   
+    var historyString = ""
+    var historyStore: [String] = [];
     
     let JS = UIColor(red: 255/255.0, green: 0/255.0, blue: 56/255.0, alpha: 1)
-
+    
     
     override func loadView() {
         webView = WKWebView()
@@ -37,7 +37,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
         let share = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareMe(sender:)))
-//        let back = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(back(sender:)))
+        //        let back = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(back(sender:)))
         let back = UIBarButtonItem(image: #imageLiteral(resourceName: "arrow-left"), style: .plain, target: self, action: #selector(back(sender:)))
         let forward = UIBarButtonItem(image: #imageLiteral(resourceName: "arrow-right"), style: .plain, target: self, action: #selector(forward(sender:)))
         let bookmark = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: nil)
@@ -57,12 +57,12 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
     
     func navigationBar() {
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Home", style: .plain, target: self, action: #selector(openTapped))
+        //        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Home", style: .plain, target: self, action: #selector(openTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "home"), style: .plain, target: self, action: #selector(openTapped))
-//        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchTapped))
+        //        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchTapped))
         searchBarFunc()
         navigationItem.rightBarButtonItem?.tintColor = JS;
-//        navigationItem.leftBarButtonItem?.tintColor = JS;
+        //        navigationItem.leftBarButtonItem?.tintColor = JS;
         navigationController?.hidesBarsOnSwipe = true
     }
     
@@ -75,15 +75,15 @@ class ViewController: UIViewController, WKNavigationDelegate {
         searchBar.autocapitalizationType = .none
         
         
-//        let url = URL(string: "https://" + (searchBar.text ?? "google.com"))!
-//        self.webView.load(URLRequest(url: url))
-//        searchBar.becomeFirstResponder()
+        //        let url = URL(string: "https://" + (searchBar.text ?? "google.com"))!
+        //        self.webView.load(URLRequest(url: url))
+        //        searchBar.becomeFirstResponder()
         self.navigationController?.navigationBar.topItem?.titleView = searchBar
     }
     
     func progressIndicator() {
         progressView = UIProgressView(progressViewStyle: .default)
-//        progressView.siz
+        //        progressView.siz
         progressButton = UIBarButtonItem(customView: progressView)
         progressView.progressTintColor = JS;
     }
@@ -91,8 +91,9 @@ class ViewController: UIViewController, WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         browserSetUp()
-//        notifications()
+        //        notifications()
     }
+    
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "estimatedProgress" {
@@ -114,14 +115,14 @@ class ViewController: UIViewController, WKNavigationDelegate {
             let url = URL(string: "https://" + (alert.textFields?.first?.text ?? "google.com"))!
             self.webView.load(URLRequest(url: url))
             print(url as Any)
-//            var bookmarks = [URL]()
+            //            var bookmarks = [URL]()
             bookmarks.append(url)
             print("You have saved \(bookmarks.count) bookmark.")
             //            if url == alert.textFields?.first?.text {
             //            print("Your URL was: \(url ?? "no url found")")
             //            }
         }))
-    
+        
         self.present(alert, animated: true)
     }
     
@@ -130,13 +131,13 @@ class ViewController: UIViewController, WKNavigationDelegate {
         let url = URL(string: "https://github.com/jrc404")!
         searchBar.text = url.absoluteString
         webView.load(URLRequest(url: url))
-//        let ac = UIAlertController(title: "Open page…", message: nil, preferredStyle: .actionSheet)
-//        ac.addAction(UIAlertAction(title: "github.com/jrc404", style: .default, handler: openPage))
-//        ac.addAction(UIAlertAction(title: "google.co.uk", style: .default, handler: openPage))
-//        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-//        ac.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
-//        ac.view.tintColor = JS;
-//        present(ac, animated: true)
+        //        let ac = UIAlertController(title: "Open page…", message: nil, preferredStyle: .actionSheet)
+        //        ac.addAction(UIAlertAction(title: "github.com/jrc404", style: .default, handler: openPage))
+        //        ac.addAction(UIAlertAction(title: "google.co.uk", style: .default, handler: openPage))
+        //        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        //        ac.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
+        //        ac.view.tintColor = JS;
+        //        present(ac, animated: true)
     }
     
     func openPage(action: UIAlertAction) {
@@ -153,17 +154,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         self.present(activityViewController, animated: true, completion: nil)
     }
     
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        title = webView.title
-    }
     
-    @objc func back(sender: UIBarButtonItem) {
-        if(webView.canGoBack) {
-             webView.goBack()
-        } else {
-             self.navigationController?.popViewController(animated:true)
-        }
-    }
     
     func refreshPull() {
         let refreshControl = UIRefreshControl()
@@ -172,11 +163,20 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.scrollView.bounces = true
     }
     
+    @objc func back(sender: UIBarButtonItem) {
+        if(webView.canGoBack) {
+            webView.goBack()
+        } else {
+            self.navigationController?.popViewController(animated:true)
+        }
+    }
+    
+    
     @objc func forward(sender: UIBarButtonItem) {
         if(webView.canGoForward) {
-             webView.goForward()
+            webView.goForward()
         } else {
-             self.navigationController?.popViewController(animated:true)
+            self.navigationController?.popViewController(animated:true)
         }
     }
     
@@ -185,36 +185,55 @@ class ViewController: UIViewController, WKNavigationDelegate {
         sender.endRefreshing()
     }
     
-//    func notifcation() {
-//        let notification = UILocalNotification()
-//        notification.alertBody = "Hello, local notifications!"
-//        notification.fireDate = NSDate().dateByAddingTimeInterval(10) as Date // 10 seconds after now UIApplication.sharedApplication().scheduleLocalNotification(notification)
-//    }
-
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        let url = webView.url
+        searchBar.text = url?.absoluteString
+        browserHistory()
+    }
+    
+    //    func notifcation() {
+    //        let notification = UILocalNotification()
+    //        notification.alertBody = "Hello, local notifications!"
+    //        notification.fireDate = NSDate().dateByAddingTimeInterval(10) as Date // 10 seconds after now UIApplication.sharedApplication().scheduleLocalNotification(notification)
+    //    }
+    
+    @objc func bookmarks(sender: UIBarButtonItem) {
+        let currentHistory = webView.url
+        
+        for value in historyStore {
+            // I kinda know what I want to do here...
+        }
+    }
+    
+    func browserHistory() {
+        let currentHistory = webView.url
+        historyStore.append(currentHistory!.absoluteString)
+        dump(historyStore)
+    }
+    
+    
+    
 }
 
 extension ViewController: UISearchBarDelegate {
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
-    {
-//        print("\(searchText)")
-    }
-    
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         var url: URL!
         url = URL(string: "\(searchBar.text ?? "https://google.com")")!
         let something = url.absoluteString
         print(url!)
-        let check = something.contains("https://")
-        if (!check) {
+        let https = something.contains("https://")
+        let http = something.contains("http://")
+        if (http) {
+            url = URL(string: searchBar.text ?? "https://google.co.uk")!
+        }
+        else if (!https) {
             print("idiot")
             url = URL(string: "https://" + (searchBar.text ?? "https://google.com"))!
-        
         }
-       
-//        searchBar.placeholder = "Search or enter website name"
-
+        
+        //        searchBar.placeholder = "Search or enter website name"
+        
         searchBar.text = url.absoluteString
         self.webView.load(URLRequest(url: url))
         searchBar.resignFirstResponder()
